@@ -15,9 +15,9 @@ fun Application.module() {
 
     // Initialize database connection
     Database.connect(
-        url = "jdbc:mysql://localhost:3306/aryan_test",
-        driver = "com.mysql.cj.jdbc.Driver",
-        user = "root",
-        password = "aryanlovely30"
+        url = System.getenv("JDBC_URL"),
+        driver = System.getenv("DRIVER"),
+        user = System.getenv("USER"),
+        password = System.getenv("PASSWORD")
     )
 }
