@@ -2,6 +2,7 @@
 val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
+val commons_codec_version: String by project
 
 plugins {
     kotlin("jvm") version "1.9.22"
@@ -36,10 +37,14 @@ dependencies {
 
 // External Dependencies...
 dependencies {
+    // Ktor Netty & Exposed Lib
     implementation("io.ktor:ktor-server-core:2.3.0")
     implementation("io.ktor:ktor-server-netty:1.6.4")
     implementation("io.ktor:ktor-gson:1.6.4")
     implementation("org.jetbrains.exposed:exposed-core:0.36.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.36.1")
+    // JDBC connector
     runtimeOnly("mysql:mysql-connector-java:8.0.28")
+    // Hashing
+    implementation("commons-codec:commons-codec:$commons_codec_version")
 }

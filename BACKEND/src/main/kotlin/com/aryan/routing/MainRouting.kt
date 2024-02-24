@@ -24,7 +24,7 @@ fun Route.signIn() {
         val request = call.receive<AuthRequest>()
         val user = UserDAO.loginUser(request.email, request.password)
 
-        //Checking for user-existence
+        //Checking for user-exi5stence
         if(user != null){
             call.respond("Logged In Successfully...")
             return@post
