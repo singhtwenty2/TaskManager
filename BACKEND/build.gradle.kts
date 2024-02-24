@@ -47,4 +47,7 @@ dependencies {
     runtimeOnly("mysql:mysql-connector-java:8.0.28")
     // Hashing
     implementation("commons-codec:commons-codec:$commons_codec_version")
+    // JWT
+    implementation("io.ktor:ktor-server-auth-jvm")
+    implementation("io.ktor:ktor-server-auth-jwt-jvm")
 }

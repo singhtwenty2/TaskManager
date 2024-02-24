@@ -1,6 +1,6 @@
 package com.aryan.data.response
 
-import com.aryan.data.entity.UserEntity
+import com.aryan.data.request.SignUpAuthRequest
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,8 +10,8 @@ data class UserResponse(
     val email: String
 ) {
     companion object {
-        fun fromUserEntity(userEntity: UserEntity): UserResponse? {
-            return userEntity.id?.let { UserResponse(it, userEntity.name, userEntity.email) }
+        fun fromUserTable(signUpAuthRequest: SignUpAuthRequest): UserResponse? {
+            return signUpAuthRequest.id?.let { UserResponse(it, signUpAuthRequest.name, signUpAuthRequest.email) }
         }
     }
 }

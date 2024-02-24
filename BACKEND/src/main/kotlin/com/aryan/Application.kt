@@ -1,5 +1,7 @@
 package com.aryan
 
+import com.aryan.data.security.token.JwtTokenService
+import com.aryan.data.security.token.TokenConfig
 import com.aryan.plugins.*
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
@@ -9,9 +11,17 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
+    val tokenService =JwtTokenService()
+    val tokenConfig = TokenConfig(
+        issuer = environment.config.property("jwt.issuer").getString(),
+        audience = environment.config.property("jwt.audience").toString(),
+        expiresIn = 365L * 1000L * 60L * 60L * 24L,
+        secret = System.getenv("JWT_SECRET")
+    )
     configureSerialization()
     configureMonitoring()
-    configureRouting()
+    configureSecurity(tokenConfig)
+    configureRouting(tokenConfig, tokenService)
 
     // Initialize database connection
     Database.connect(
