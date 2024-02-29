@@ -145,3 +145,22 @@ fun Route.updateTask() {
         }
     }
 }
+
+fun Route.deleteTask() {
+    authenticate {
+        delete("/tasks/{id}") {
+            val taskId = call.parameters["id"]?.toIntOrNull()
+            if(taskId != null){
+                val success = TaskDAO.deleteTask(taskId)
+                if(success) {
+                    call.respond(HttpStatusCode.OK, "Task deleted successfully")
+                } else {
+                    call.respond(HttpStatusCode.NotFound, "Task not found")
+                }
+            } else {
+                call.respond(HttpStatusCode.BadRequest, "Invalid task ID")
+            }
+
+        }
+    }
+}

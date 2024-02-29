@@ -18,5 +18,6 @@ fun Application.configureRouting(
         tasks(tokenConfig,tokenService)
         searchTasks()
         updateTask()
+        deleteTask()
     }
 }

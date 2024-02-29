@@ -4,6 +4,7 @@ import com.aryan.data.database.tables.task.Tasks
 import com.aryan.data.request.CreateNewTaskRequest
 import com.aryan.data.request.UpdateTaskRequest
 import com.aryan.data.response.TaskByUserIdResponse
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -59,6 +60,13 @@ object TaskDAO {
             } else {
                 false
             }
+        }
+    }
+
+    fun deleteTask(taskId: Int): Boolean {
+        return transaction {
+            val rowsAffected = Tasks.deleteWhere { Tasks.id eq taskId }
+            rowsAffected > 0
         }
     }
 }
