@@ -1,4 +1,4 @@
-package com.aryan.data.database.authentication
+package com.aryan.data.database.tables.authentication
 
 import org.jetbrains.exposed.sql.Table
 

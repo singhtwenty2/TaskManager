@@ -1,6 +1,6 @@
 package com.aryan.data.dao
 
-import com.aryan.data.database.authentication.Users
+import com.aryan.data.database.tables.authentication.Users
 import com.aryan.data.entity.UserEntity
 import com.aryan.data.request.SignUpAuthRequest
 import com.aryan.data.security.hashing.SHA256HashingService
