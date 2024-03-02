@@ -1,5 +1,6 @@
 package com.aryan.taskmanager
 
+import UiUtils
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,12 +10,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.aryan.taskmanager.presentation.navigation.AppNavComposable
-import com.aryan.taskmanager.presentation.navigation.NavigationRoute
-import com.aryan.taskmanager.presentation.signup_screen.SignUpComposable
 import com.aryan.taskmanager.ui.theme.TaskManagerTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,7 +27,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SignUpComposable(navController = navController)
+                    UiUtils().setStatusBar(this,R.color.spotify)
+                    AppNavComposable(navController = navController)
                 }
             }
         }
@@ -41,6 +39,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     TaskManagerTheme {
-        
+
     }
 }

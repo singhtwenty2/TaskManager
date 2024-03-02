@@ -41,3 +41,8 @@ val GreenGrey50 = Color(0xFF52ad76)
 val GreenGrey60 = Color(0xFF74be92)
 val GreenGrey80 = Color(0xFFbadec8)
 val GreenGrey90 = Color(0xFFdcefe4)
+
+
+//Extra Color
+val spotifyBG = Color(0xFF121212) // Color code #121212
+val whatsAppBG = Color(0xFF0B141B) // Color code #0B141B

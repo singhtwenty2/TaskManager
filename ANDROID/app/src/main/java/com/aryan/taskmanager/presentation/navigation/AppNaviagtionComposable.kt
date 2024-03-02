@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.aryan.taskmanager.presentation.login_screen.LoginComposable
+import com.aryan.taskmanager.presentation.signup_screen.SignUpComposable
 
 @Composable
 fun AppNavComposable(
@@ -18,10 +20,10 @@ fun AppNavComposable(
         startDestination = startDestination
     ) {
         composable(NavigationRoute.SIGNUP.route) {
-            // SignUp Composable...
+            SignUpComposable(navController = navController)
         }
         composable(NavigationRoute.LOGIN.route) {
-            // Login Composable...
+            LoginComposable(navController = navController)
         }
         composable(NavigationRoute.HOME.route) {
             // Home Composable...

@@ -1,10 +1,8 @@
-package com.aryan.taskmanager.presentation.signup_screen
+package com.aryan.taskmanager.presentation.login_screen
 
 import android.content.Context
-import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -42,29 +39,23 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.getSystemService
 import androidx.navigation.NavHostController
 import com.aryan.taskmanager.R
 import com.aryan.taskmanager.presentation.navigation.NavigationRoute
-import com.aryan.taskmanager.presentation.navigation.Screen
 import com.aryan.taskmanager.ui.theme.Green10
 import com.aryan.taskmanager.ui.theme.Green20
 import com.aryan.taskmanager.ui.theme.Green30
 import com.aryan.taskmanager.ui.theme.Green40
 import com.aryan.taskmanager.ui.theme.spotifyBG
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
-fun SignUpComposable(
+fun LoginComposable(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
-    var name by remember {
-        mutableStateOf("")
-    }
     var email by remember {
         mutableStateOf("")
     }
@@ -95,25 +86,6 @@ fun SignUpComposable(
             modifier = Modifier
                 .padding(16.dp)
         ) {
-            OutlinedTextField(
-                maxLines = 1,
-                value = name,
-                colors = OutlinedTextFieldDefaults.colors(
-                    cursorColor = Green20,
-                    focusedBorderColor = Green20,
-                    unfocusedBorderColor = Green10,
-                ),
-                onValueChange = {
-                    name = it
-                },
-                label = {
-                    Text(
-                        text = "Name",
-                        color = Green30
-                    )
-                }
-            )
-            Spacer(modifier = Modifier.height(10.dp))
             OutlinedTextField(
                 maxLines = 1,
                 value = email,
@@ -187,7 +159,7 @@ fun SignUpComposable(
                 )
             ) {
                 Text(
-                    text = "Create Account",
+                    text = "Log In",
                     color = Color.Black,
                     fontSize = 18.sp
                 )
@@ -198,17 +170,17 @@ fun SignUpComposable(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Already Have An Account!",
+                    text = "Don't Have An Account!",
                     color = Green20
                 )
                 Spacer(modifier = Modifier.width(5.dp))
                 TextButton(onClick = {
-                    // Navigate to Login Screen...
+                    // Navigate to SignUp Screen
                     vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
-                    navController.navigate(NavigationRoute.LOGIN.route)
+                    navController.navigate(NavigationRoute.SIGNUP.route)
                 }) {
                     Text(
-                        text = "Login Now.",
+                        text = "Create Now.",
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         color = Green30
