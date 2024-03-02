@@ -4,9 +4,11 @@ import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -26,6 +28,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,11 +45,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.getSystemService
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.aryan.taskmanager.R
+import com.aryan.taskmanager.data.api.util.AuthResult
 import com.aryan.taskmanager.presentation.navigation.NavigationRoute
-import com.aryan.taskmanager.presentation.navigation.Screen
 import com.aryan.taskmanager.ui.theme.Green10
 import com.aryan.taskmanager.ui.theme.Green20
 import com.aryan.taskmanager.ui.theme.Green30
@@ -57,11 +60,42 @@ import com.aryan.taskmanager.ui.theme.spotifyBG
 @Composable
 fun SignUpComposable(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: SignUpScreenViewModel = hiltViewModel()
 ) {
+    val state = viewModel.state
     val context = LocalContext.current
     val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
+    LaunchedEffect(viewModel, context) {
+        viewModel.authResult.collect { result ->
+            when (result) {
+                is AuthResult.Authorized -> {
+                    Toast.makeText(
+                        context,
+                        "You Are Authorized.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                is AuthResult.Unauthorized -> {
+                    Toast.makeText(
+                        context,
+                        "You Are Not Authorized.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                is AuthResult.UnknownError -> {
+                    Toast.makeText(
+                        context,
+                        "Unknown Error.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
     var name by remember {
         mutableStateOf("")
     }
@@ -97,14 +131,14 @@ fun SignUpComposable(
         ) {
             OutlinedTextField(
                 maxLines = 1,
-                value = name,
+                value = state.signUpName,
                 colors = OutlinedTextFieldDefaults.colors(
                     cursorColor = Green20,
                     focusedBorderColor = Green20,
                     unfocusedBorderColor = Green10,
                 ),
                 onValueChange = {
-                    name = it
+                    viewModel.onEvent(SignUpUiEvents.SignUpNameChanged(it))
                 },
                 label = {
                     Text(
@@ -116,14 +150,14 @@ fun SignUpComposable(
             Spacer(modifier = Modifier.height(10.dp))
             OutlinedTextField(
                 maxLines = 1,
-                value = email,
+                value = state.signUpEmail,
                 colors = OutlinedTextFieldDefaults.colors(
                     cursorColor = Green20,
                     focusedBorderColor = Green20,
                     unfocusedBorderColor = Green10,
                 ),
                 onValueChange = {
-                    email = it
+                    viewModel.onEvent(SignUpUiEvents.SignUpEmailChanged(it))
                 },
                 label = {
                     Text(
@@ -135,7 +169,7 @@ fun SignUpComposable(
             Spacer(modifier = Modifier.height(10.dp))
             OutlinedTextField(
                 maxLines = 1,
-                value = pass,
+                value = state.signUpPassword,
                 visualTransformation = if (isPasswordVisible) {
                     VisualTransformation.None
                 } else {
@@ -147,7 +181,7 @@ fun SignUpComposable(
                     unfocusedBorderColor = Green10,
                 ),
                 onValueChange = {
-                    pass = it
+                    viewModel.onEvent(SignUpUiEvents.SignUpPasswordChanged(it))
                 },
                 label = {
                     Text(
@@ -181,7 +215,10 @@ fun SignUpComposable(
                     .fillMaxWidth()
                     .height(70.dp)
                     .padding(horizontal = 30.dp),
-                onClick = { /*TODO*/ },
+                onClick = {
+                    viewModel.onEvent(SignUpUiEvents.SignUp)
+                    vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK))
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Green40
                 )
@@ -215,6 +252,16 @@ fun SignUpComposable(
                     )
                 }
             }
+        }
+    }
+    if(state.isLoading) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
         }
     }
 }

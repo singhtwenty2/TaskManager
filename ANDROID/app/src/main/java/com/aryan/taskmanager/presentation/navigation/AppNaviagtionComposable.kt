@@ -1,5 +1,7 @@
 package com.aryan.taskmanager.presentation.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -8,6 +10,7 @@ import androidx.navigation.compose.composable
 import com.aryan.taskmanager.presentation.login_screen.LoginComposable
 import com.aryan.taskmanager.presentation.signup_screen.SignUpComposable
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun AppNavComposable(
     modifier: Modifier = Modifier,

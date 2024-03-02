@@ -26,7 +26,7 @@ object AppModule {
             .baseUrl("http://127.0.0.1:8050/")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
-            .create()
+            .create(AuthAPI::class.java)
     }
 
     @Provides
