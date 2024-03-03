@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="homeStyle.css">
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-left">
+            <!-- Logo will be added here -->
+        </div>
+        <div class="nav-center">
+            <h1>Task Manager</h1>
+        </div>
+        <div class="nav-right">
+            <button class="logout-btn">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Task cards will be added here -->
+        <div class="task-card">
+            <h1>Task Title(20 Chars)</h1>
+            <p>Task Description (Lorem ipsum dolor sit amet consectetur, adipisicing elit. Praesentium architecto
+                blanditiis unde dolores et tempore sed dolorum obcaecati id temporibus? Ratione maiores aut culpa et
+                voluptate deleniti recusandae quo esse tempora, porro modi veritatis asperiores libero, itaque totam
+                provident eveniet doloribus, ab quibusdam eos aliquam.)
+            </p>
+            <p>Due Date</p>
+            <label class="switch">
+                <input type="checkbox" class="toggle-status">
+                <span class="slider"></span>
+            </label>
+            <p>Task Id</p>
+        </div>
+    </div>
+
+    <button class="fab">+</button>
+
+    <script src="homeScript.js"></script>
+</body>
+
+</html>
