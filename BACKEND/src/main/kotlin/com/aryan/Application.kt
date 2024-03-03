@@ -11,6 +11,7 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
+    configureHTTP()
     val tokenService =JwtTokenService()
     val tokenConfig = TokenConfig(
         issuer = environment.config.property("jwt.issuer").getString(),

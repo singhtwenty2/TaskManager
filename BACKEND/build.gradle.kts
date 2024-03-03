@@ -50,4 +50,6 @@ dependencies {
     // JWT
     implementation("io.ktor:ktor-server-auth-jvm")
     implementation("io.ktor:ktor-server-auth-jwt-jvm")
+    //CORS
+    implementation("io.ktor:ktor-server-cors-jvm")
 }
