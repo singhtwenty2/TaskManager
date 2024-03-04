@@ -16,6 +16,12 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
+fun Route.welcome() {
+    get("/welcome") {
+        call.respond("Hello There !")
+    }
+}
+
 fun Route.signUp() {
     post("/signup") {
         val user = call.receive<SignUpAuthRequest>()
@@ -56,8 +62,10 @@ fun Route.signIn(
 }
 
 fun Route.logout() {
-    post("/logout") {
-        call.respond(HttpStatusCode.OK,"Logout Successful")
+    authenticate {
+        post("/logout") {
+            call.respond(HttpStatusCode.OK, "Logout Successful")
+        }
     }
 }
 

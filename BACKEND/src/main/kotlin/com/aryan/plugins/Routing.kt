@@ -11,6 +11,7 @@ fun Application.configureRouting(
     tokenService: TokenService
 ) {
     routing {
+        welcome()
         signUp()
         signIn(tokenConfig,tokenService)
         logout()
