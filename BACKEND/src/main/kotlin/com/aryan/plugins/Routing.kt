@@ -13,6 +13,7 @@ fun Application.configureRouting(
     routing {
         signUp()
         signIn(tokenConfig,tokenService)
+        logout()
         searchByName()
         getSecretInfo()
         tasks(tokenConfig,tokenService)

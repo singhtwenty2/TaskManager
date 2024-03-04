@@ -55,6 +55,12 @@ fun Route.signIn(
     }
 }
 
+fun Route.logout() {
+    post("/logout") {
+        call.respond(HttpStatusCode.OK,"Logout Successful")
+    }
+}
+
 fun Route.searchByName() {
     post("/search") {
         val request = call.receive<SearchUserByNameRequest>()
