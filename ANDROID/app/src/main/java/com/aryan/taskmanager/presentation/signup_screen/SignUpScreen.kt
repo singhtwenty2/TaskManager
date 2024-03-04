@@ -76,6 +76,7 @@ fun SignUpComposable(
                         "You Are Authorized.",
                         Toast.LENGTH_LONG
                     ).show()
+                    navController.navigate(NavigationRoute.HOME.route)
                 }
 
                 is AuthResult.Unauthorized -> {
