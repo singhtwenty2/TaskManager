@@ -15,7 +15,7 @@ import retrofit2.HttpException
 class SeverRepositoryImpl(
     private val serverAPI: ServerAPI,
     private val preferences: SharedPreferences
-): SeverRepository {
+) : SeverRepository {
     override suspend fun signUp(name: String, email: String, password: String): AuthResult<Unit> {
         return try {
             serverAPI.signUp(
@@ -27,7 +27,7 @@ class SeverRepositoryImpl(
             )
             signIn(email, password)
         } catch (e: HttpException) {
-            if(e.code() == 401){
+            if (e.code() == 401) {
                 AuthResult.Unauthorized()
             } else {
                 AuthResult.UnknownError()
@@ -48,10 +48,10 @@ class SeverRepositoryImpl(
             preferences.edit()
                 .putString("jwt", response.token)
                 .apply()
-            Log.d("JWT",response.token)
+            Log.d("JWT", response.token)
             AuthResult.Authorized()
         } catch (e: HttpException) {
-            if(e.code() == 401){
+            if (e.code() == 401) {
                 AuthResult.Unauthorized()
             } else {
                 AuthResult.UnknownError()
@@ -61,29 +61,20 @@ class SeverRepositoryImpl(
         }
     }
 
-    override suspend fun newTask(
-        title: String,
-        description: String?,
-        dueDate: String,
-        priority: Int,
-        isDone: Boolean
-    ): TaskResult<Unit> {
+    override suspend fun newTask(newTaskRequest: NewTaskRequest): TaskResult<Unit> {
         return try {
             val token = preferences.getString("jwt", null) ?: return TaskResult.Unauthorized()
-            if(token.isNotEmpty()) {
-                serverAPI.createNewTask(NewTaskRequest(
-                    title = title,
-                    description = description,
-                    dueDate = dueDate,
-                    priority = priority,
-                    isDone = isDone
-                ), "Bearer $token")
+            if (token.isNotEmpty()) {
+                serverAPI.createNewTask(
+                    request = newTaskRequest,
+                    "Bearer $token"
+                )
                 TaskResult.Success()
             } else {
-                TaskResult.Unauthorized()
+                TaskResult.UnknownError()
             }
         } catch (e: HttpException) {
-            if(e.code() == 401) {
+            if (e.code() == 401) {
                 TaskResult.Unauthorized()
             } else {
                 TaskResult.UnknownError()
@@ -96,7 +87,7 @@ class SeverRepositoryImpl(
     override suspend fun getTasks(): TaskResult<List<TaskResponse>> {
         val token = preferences.getString("jwt", null)
         token?.let {
-            Log.d("JWT",it)
+            Log.d("JWT", it)
             return try {
                 val tasks = serverAPI.getTasks("Bearer $it")
                 TaskResult.Success(tasks)
@@ -112,8 +103,8 @@ class SeverRepositoryImpl(
         updateTaskRequest: UpdateTaskRequest
     ): TaskResult<Unit> {
         return try {
-            val token = preferences.getString("jwt",null) ?: return TaskResult.Unauthorized()
-            if(token.isNotEmpty()) {
+            val token = preferences.getString("jwt", null) ?: return TaskResult.Unauthorized()
+            if (token.isNotEmpty()) {
                 serverAPI.updateTask(
                     taskId = taskId,
                     request = updateTaskRequest,
@@ -124,7 +115,7 @@ class SeverRepositoryImpl(
                 TaskResult.UnknownError()
             }
         } catch (e: HttpException) {
-            if(e.code() == 401) {
+            if (e.code() == 401) {
                 TaskResult.Unauthorized()
             } else {
                 TaskResult.UnknownError()

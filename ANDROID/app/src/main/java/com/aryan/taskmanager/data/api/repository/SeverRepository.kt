@@ -2,6 +2,7 @@ package com.aryan.taskmanager.data.api.repository
 
 import com.aryan.taskmanager.data.api.util.AuthResult
 import com.aryan.taskmanager.data.api.util.TaskResult
+import com.aryan.taskmanager.data.entity.NewTaskRequest
 import com.aryan.taskmanager.data.entity.TaskResponse
 import com.aryan.taskmanager.data.entity.UpdateTaskRequest
 
@@ -18,11 +19,7 @@ interface SeverRepository {
     ): AuthResult<Unit>
 
     suspend fun newTask(
-        title: String,
-        description: String?,
-        dueDate: String,
-        priority: Int,
-        isDone: Boolean = false,
+        newTaskRequest: NewTaskRequest
     ): TaskResult<Unit>
 
     suspend fun getTasks(): TaskResult<List<TaskResponse>>
