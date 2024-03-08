@@ -9,6 +9,7 @@ import com.aryan.taskmanager.data.entity.NewTaskRequest
 import com.aryan.taskmanager.data.entity.SignInRequest
 import com.aryan.taskmanager.data.entity.SignUpRequest
 import com.aryan.taskmanager.data.entity.TaskResponse
+import com.aryan.taskmanager.data.entity.UpdateTaskRequest
 import retrofit2.HttpException
 
 class SeverRepositoryImpl(
@@ -104,5 +105,32 @@ class SeverRepositoryImpl(
             }
         }
         return TaskResult.Unauthorized()
+    }
+
+    override suspend fun updateTask(
+        taskId: Int,
+        updateTaskRequest: UpdateTaskRequest
+    ): TaskResult<Unit> {
+        return try {
+            val token = preferences.getString("jwt",null) ?: return TaskResult.Unauthorized()
+            if(token.isNotEmpty()) {
+                serverAPI.updateTask(
+                    taskId = taskId,
+                    request = updateTaskRequest,
+                    token = "Bearer $token"
+                )
+                TaskResult.Success()
+            } else {
+                TaskResult.UnknownError()
+            }
+        } catch (e: HttpException) {
+            if(e.code() == 401) {
+                TaskResult.Unauthorized()
+            } else {
+                TaskResult.UnknownError()
+            }
+        } catch (e: Exception) {
+            TaskResult.UnknownError()
+        }
     }
 }

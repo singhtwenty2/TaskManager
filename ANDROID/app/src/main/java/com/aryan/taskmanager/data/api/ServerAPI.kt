@@ -5,10 +5,13 @@ import com.aryan.taskmanager.data.entity.NewTaskRequest
 import com.aryan.taskmanager.data.entity.SignInRequest
 import com.aryan.taskmanager.data.entity.SignUpRequest
 import com.aryan.taskmanager.data.entity.TaskResponse
+import com.aryan.taskmanager.data.entity.UpdateTaskRequest
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface ServerAPI {
 
@@ -31,4 +34,11 @@ interface ServerAPI {
     suspend fun getTasks(
         @Header("Authorization") token: String
     ): List<TaskResponse>
+
+    @PUT("/tasks/{id}")
+    suspend fun updateTask(
+        @Path("id") taskId: Int,
+        @Body request: UpdateTaskRequest,
+        @Header("Authorization") token: String
+    )
 }
