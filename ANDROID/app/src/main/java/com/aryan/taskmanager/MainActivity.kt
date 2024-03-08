@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    UiUtils().setStatusBar(this@MainActivity,R.color.spotify)
+                    UiUtils().setStatusBar(this@MainActivity, R.color.spotify)
                     AppNavComposable(navController = navController)
                 }
             }

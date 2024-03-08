@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -53,6 +55,7 @@ import com.aryan.taskmanager.ui.theme.Green20
 import com.aryan.taskmanager.ui.theme.Green30
 import com.aryan.taskmanager.ui.theme.Green40
 import com.aryan.taskmanager.ui.theme.spotifyBG
+import com.aryan.taskmanager.ui.theme.whatsAppBG
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
@@ -230,6 +233,18 @@ fun LoginComposable(
                     )
                 }
             }
+        }
+    }
+    if(state.isLoading) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(whatsAppBG),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(
+                color = Green40
+            )
         }
     }
 }

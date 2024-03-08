@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aryan.taskmanager.data.api.repository.AuthRepository
+import com.aryan.taskmanager.data.api.repository.SeverRepository
 import com.aryan.taskmanager.data.api.util.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpScreenViewModel @Inject constructor(
-    private val repository: AuthRepository
+    private val repository: SeverRepository
 ) : ViewModel() {
 
     var state by mutableStateOf(SignUpState())

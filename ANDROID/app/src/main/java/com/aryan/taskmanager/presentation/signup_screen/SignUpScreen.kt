@@ -55,6 +55,7 @@ import com.aryan.taskmanager.ui.theme.Green20
 import com.aryan.taskmanager.ui.theme.Green30
 import com.aryan.taskmanager.ui.theme.Green40
 import com.aryan.taskmanager.ui.theme.spotifyBG
+import com.aryan.taskmanager.ui.theme.whatsAppBG
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
@@ -96,15 +97,6 @@ fun SignUpComposable(
                 }
             }
         }
-    }
-    var name by remember {
-        mutableStateOf("")
-    }
-    var email by remember {
-        mutableStateOf("")
-    }
-    var pass by remember {
-        mutableStateOf("")
     }
     var isPasswordVisible by remember {
         mutableStateOf(false)
@@ -259,10 +251,12 @@ fun SignUpComposable(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White),
+                .background(whatsAppBG),
             contentAlignment = Alignment.Center
         ) {
-            CircularProgressIndicator()
+            CircularProgressIndicator(
+                color = Green40
+            )
         }
     }
 }
