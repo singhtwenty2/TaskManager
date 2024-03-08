@@ -28,4 +28,7 @@ interface SeverRepository {
         taskId: Int,
         updateTaskRequest: UpdateTaskRequest
     ): TaskResult<Unit>
+
+    suspend fun deleteTask(taskId: Int): TaskResult<Unit>
+
 }

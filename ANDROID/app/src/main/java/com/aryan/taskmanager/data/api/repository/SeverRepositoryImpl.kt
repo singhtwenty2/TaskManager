@@ -84,6 +84,29 @@ class SeverRepositoryImpl(
         }
     }
 
+    override suspend fun deleteTask(taskId: Int): TaskResult<Unit> {
+        return try {
+            val token = preferences.getString("jwt", null) ?: return TaskResult.Unauthorized()
+            if (token.isNotEmpty()) {
+                serverAPI.deleteTask(
+                    taskId = taskId,
+                    token = "Bearer $token"
+                )
+                TaskResult.Success()
+            } else {
+                TaskResult.UnknownError()
+            }
+        } catch (e: HttpException) {
+            if (e.code() == 401) {
+                TaskResult.Unauthorized()
+            } else {
+                TaskResult.UnknownError()
+            }
+        } catch (e: Exception) {
+            TaskResult.UnknownError()
+        }
+    }
+
     override suspend fun getTasks(): TaskResult<List<TaskResponse>> {
         val token = preferences.getString("jwt", null)
         token?.let {

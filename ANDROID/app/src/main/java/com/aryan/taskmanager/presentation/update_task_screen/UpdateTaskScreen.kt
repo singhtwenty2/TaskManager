@@ -38,7 +38,6 @@ import com.aryan.taskmanager.ui.theme.Green40
 import com.aryan.taskmanager.ui.theme.spotifyBG
 import com.aryan.taskmanager.ui.theme.whatsAppBG
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdateTaskComposable(
     navHostController: NavHostController,

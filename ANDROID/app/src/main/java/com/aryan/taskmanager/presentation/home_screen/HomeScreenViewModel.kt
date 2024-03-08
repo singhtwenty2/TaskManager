@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val severRepository: SeverRepository
+    private val repository: SeverRepository
 ) : ViewModel() {
 
     private val _tasks: MutableStateFlow<List<TaskResponse>> = MutableStateFlow(emptyList())
@@ -22,7 +22,7 @@ class HomeScreenViewModel @Inject constructor(
 
     fun fetchTask() {
         viewModelScope.launch {
-            when(val result = severRepository.getTasks()) {
+            when(val result = repository.getTasks()) {
                 is TaskResult.Success -> {
                     _tasks.value = result.data!!
                 } is TaskResult.BadRequest -> {
@@ -35,6 +35,12 @@ class HomeScreenViewModel @Inject constructor(
                 Log.d("Response", "Unknown Error")
                 }
             }
+        }
+    }
+
+    fun deleteTask(taskId: Int) {
+        viewModelScope.launch {
+            val result = repository.deleteTask(taskId)
         }
     }
 

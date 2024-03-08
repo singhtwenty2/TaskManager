@@ -7,6 +7,7 @@ import com.aryan.taskmanager.data.entity.SignUpRequest
 import com.aryan.taskmanager.data.entity.TaskResponse
 import com.aryan.taskmanager.data.entity.UpdateTaskRequest
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -41,4 +42,11 @@ interface ServerAPI {
         @Body request: UpdateTaskRequest,
         @Header("Authorization") token: String
     )
+
+    @DELETE("/tasks/{id}")
+    suspend fun deleteTask(
+        @Path("id") taskId: Int,
+        @Header("Authorization") token: String
+    )
+
 }
