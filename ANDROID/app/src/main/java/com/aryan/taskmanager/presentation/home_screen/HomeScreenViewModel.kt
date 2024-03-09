@@ -20,21 +20,31 @@ class HomeScreenViewModel @Inject constructor(
     private val _tasks: MutableStateFlow<List<TaskResponse>> = MutableStateFlow(emptyList())
     val tasks: StateFlow<List<TaskResponse>> = _tasks
 
+
     fun fetchTask() {
         viewModelScope.launch {
-            when(val result = repository.getTasks()) {
+            when (val result = repository.getTasks()) {
                 is TaskResult.Success -> {
                     _tasks.value = result.data!!
-                } is TaskResult.BadRequest -> {
+                }
+
+                is TaskResult.BadRequest -> {
                     Log.d("Response", "400")
-                } is TaskResult.NotFound -> {
-                Log.d("Response", "404")
-                } is TaskResult.Unauthorized -> {
-                Log.d("Response", "401")
-                } is TaskResult.UnknownError -> {
-                Log.d("Response", "Unknown Error")
+                }
+
+                is TaskResult.NotFound -> {
+                    Log.d("Response", "404")
+                }
+
+                is TaskResult.Unauthorized -> {
+                    Log.d("Response", "401")
+                }
+
+                is TaskResult.UnknownError -> {
+                    Log.d("Response", "Unknown Error")
                 }
             }
+
         }
     }
 

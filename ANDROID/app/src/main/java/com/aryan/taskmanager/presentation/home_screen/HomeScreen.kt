@@ -1,6 +1,5 @@
 package com.aryan.taskmanager.presentation.home_screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,8 +30,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.aryan.taskmanager.data.entity.TaskResponse
 import com.aryan.taskmanager.presentation.navigation.NavigationRoute
-import com.aryan.taskmanager.presentation.navigation.Screen
-import com.aryan.taskmanager.ui.theme.spotifyBG
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun HomeScreenComposable(
@@ -41,19 +40,21 @@ fun HomeScreenComposable(
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     val tasks by viewModel.tasks.collectAsState()
+    val refreshingState = rememberSwipeRefreshState(isRefreshing = false)
 
     LaunchedEffect(viewModel) {
         viewModel.fetchTask()
     }
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(spotifyBG),
+        modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
-            ExtendedFloatingActionButton(onClick = {
-                navHostController.navigate(NavigationRoute.NEWTASK.route)
-            }) {
+            ExtendedFloatingActionButton(
+                onClick = {
+                    navHostController.navigate(NavigationRoute.NEWTASK.route)
+                },
+                modifier = Modifier.padding(16.dp)
+            ) {
                 Text(text = "Create New Task")
                 Spacer(modifier = Modifier.width(8.dp))
                 Icon(
@@ -62,26 +63,31 @@ fun HomeScreenComposable(
                 )
             }
         }
-    ) { value ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize()
+    ) {value ->
+        SwipeRefresh(
+            modifier = Modifier.fillMaxSize(),
+            onRefresh = { viewModel.fetchTask() }, // Refresh action
+            state = refreshingState
         ) {
-            items(tasks) { task ->
-                TaskItem(
-                    task = task,
-                    onItemClick = {
-                        navHostController.navigate(
-                            route = "${NavigationRoute.UPDATETASK.route}/${task.id}"
-                        )
-                    },
-                    onDeleteClick = {
-                        viewModel.deleteTask(task.id)
-                    }
-                )
+            LazyColumn {
+                items(tasks) { task ->
+                    TaskItem(
+                        task = task,
+                        onItemClick = {
+                            navHostController.navigate(
+                                route = "${NavigationRoute.UPDATETASK.route}/${task.id}"
+                            )
+                        },
+                        onDeleteClick = {
+                            viewModel.deleteTask(task.id)
+                        }
+                    )
+                }
             }
         }
     }
 }
+
 
 @Composable
 fun TaskItem(
