@@ -17,7 +17,24 @@ This project is developed as a part of our DBMS subject. It aims to provide a co
 - **Web Interface**: A user-friendly web frontend implemented with HTML, CSS, and JS, providing access to the database from any browser.
 
 ## Project Details
-Our project focuses on building a simple yet efficient system for managing a library's resources. It includes functionalities for adding, updating, and deleting books, managing borrowers, and tracking book borrowing history. The system ensures data integrity and provides a seamless experience for both librarians and library users.
+Our project focuses on building a simple yet efficient system for managing personal tasks and to-do lists. It includes functionalities for adding, updating, and deleting tasks, setting deadlines, prioritizing tasks, and tracking task completion status. The system ensures organization and productivity for individuals managing various tasks and responsibilities in their personal or professional lives.
+
+## Android App Demo
+
+### Auth Screen
+<img src="SCREENSHOTS/loginScreen.png" alt="Auth Screen" width="300">
+
+### Home Screen
+<img src="SCREENSHOTS/tasksList.png" alt="Auth Screen" width="300">
+
+### SwipeRefresh Layout
+<img src="SCREENSHOTS/swipeRefreshLayout.png" alt="Auth Screen" width="300">
+
+### Create Task Screen
+<img src="SCREENSHOTS/task.png" alt="Auth Screen" width="300">
+
+### Update Task Screen
+<img src="SCREENSHOTS/updateScreen.png" alt="Auth Screen" width="300">
 
 ## Setup
 1. **Backend (Ktor)**:
@@ -32,10 +49,11 @@ Our project focuses on building a simple yet efficient system for managing a lib
      ./gradlew run
      ```
 
-2. **Database (SQLite)**:
-   - Ensure SQLite is installed.
+2. **Database (MySQL Workbench)**:
+   - Ensure MySQL Workbench is installed and running.
    - Create a new database or use an existing one.
-   - Import the database schema provided in the `database` directory.
+   - Connect to your MySQL database server.
+   - Import the database schema provided in the `database` directory using MySQL Workbench.
 
 3. **Android App**:
    - Open the project in Android Studio.
