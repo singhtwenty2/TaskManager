@@ -1,30 +1,24 @@
 package com.aryan.taskmanager.presentation.home_screen
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -33,12 +27,14 @@ import com.aryan.taskmanager.presentation.navigation.NavigationRoute
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreenComposable(
     navHostController: NavHostController,
     modifier: Modifier = Modifier,
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
+    val scrollBehaviourState = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val tasks by viewModel.tasks.collectAsState()
     val refreshingState = rememberSwipeRefreshState(isRefreshing = false)
 
@@ -47,7 +43,8 @@ fun HomeScreenComposable(
     }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .nestedScroll(scrollBehaviourState.nestedScrollConnection),
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = {
@@ -62,32 +59,64 @@ fun HomeScreenComposable(
                     contentDescription = "Create New Task"
                 )
             }
+        },
+        topBar = {
+            MediumTopAppBar(
+                title = {
+                    Text(text = "Your Tasks")
+                },
+                navigationIcon = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.Default.ThumbUp,
+                            contentDescription = null
+                        )
+                    }
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = null
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehaviourState
+            )
         }
-    ) {value ->
-        SwipeRefresh(
-            modifier = Modifier.fillMaxSize(),
-            onRefresh = { viewModel.fetchTask() }, // Refresh action
-            state = refreshingState
-        ) {
-            LazyColumn {
-                items(tasks) { task ->
-                    TaskItem(
-                        task = task,
-                        onItemClick = {
-                            navHostController.navigate(
-                                route = "${NavigationRoute.UPDATETASK.route}/${task.id}"
-                            )
-                        },
-                        onDeleteClick = {
-                            viewModel.deleteTask(task.id)
-                        }
-                    )
+    ) { scaffoldValue ->
+        Column(Modifier.fillMaxSize()) {
+            Spacer(modifier = Modifier.height(110.dp)) // Add 20.dp spacer here
+            SwipeRefresh(
+                modifier = Modifier.weight(1f),
+                onRefresh = { viewModel.fetchTask() }, // Refresh action
+                state = refreshingState
+            ) {
+                LazyColumn {
+                    items(tasks) { task ->
+                        TaskItem(
+                            task = task,
+                            onItemClick = {
+                                navHostController.navigate(
+                                    route = "${NavigationRoute.UPDATETASK.route}/${task.id}"
+                                )
+                            },
+                            onDeleteClick = {
+                                viewModel.deleteTask(task.id)
+                            }
+                        )
+                    }
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun TaskItem(
