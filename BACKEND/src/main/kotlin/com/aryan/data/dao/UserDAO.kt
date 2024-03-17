@@ -3,6 +3,8 @@ package com.aryan.data.dao
 import com.aryan.data.database.tables.authentication.Users
 import com.aryan.data.entity.UserEntity
 import com.aryan.data.request.SignUpAuthRequest
+import com.aryan.data.request.UpdateUserDetailRequest
+import com.aryan.data.response.UserDetailResponse
 import com.aryan.data.security.hashing.SHA256HashingService
 import com.aryan.data.security.hashing.SaltedHash
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -55,6 +57,37 @@ object UserDAO {
                         password = resultRow[Users.password]
                     )
                 }
+        }
+    }
+
+    fun getUserDetail(userId: Int): UserDetailResponse {
+        return transaction {
+            Users.select { Users.id eq userId }
+                .map {resultRow ->
+                    UserDetailResponse(
+                        id = resultRow[Users.id],
+                        name = resultRow[Users.name],
+                        email = resultRow[Users.email]
+                    )
+                }.singleOrNull()!!
+        }
+    }
+
+    fun editUser(
+        userId: Int,
+        request: UpdateUserDetailRequest
+    ): Boolean {
+        return transaction {
+            val user = Users.select { Users.id eq userId }.singleOrNull()
+            if(user != null) {
+                Users.update({Users.id eq userId})  {
+                    it[name] = request.name
+                    it[email] = request.email
+                }
+                true
+            } else {
+                false
+            }
         }
     }
 }

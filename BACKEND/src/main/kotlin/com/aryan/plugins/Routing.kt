@@ -21,5 +21,8 @@ fun Application.configureRouting(
         searchTasks()
         updateTask()
         deleteTask()
+        getTaskById()
+        getUserDetail()
+        editUser()
     }
 }

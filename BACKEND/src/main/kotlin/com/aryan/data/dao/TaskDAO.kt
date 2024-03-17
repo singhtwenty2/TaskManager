@@ -69,4 +69,20 @@ object TaskDAO {
             rowsAffected > 0
         }
     }
+
+    fun getTaskById(taskId: Int): TaskByUserIdResponse? {
+        return transaction {
+            Tasks.select { Tasks.id eq taskId }.map {
+                TaskByUserIdResponse(
+                    it[Tasks.id],
+                    it[Tasks.title],
+                    it[Tasks.description],
+                    it[Tasks.dueDate],
+                    it[Tasks.priority],
+                    it[Tasks.isDone],
+                    it[Tasks.userId]
+                )
+            }.singleOrNull()
+        }
+    }
 }

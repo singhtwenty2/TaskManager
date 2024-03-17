@@ -2,6 +2,7 @@ package com.aryan.routing
 
 import com.aryan.data.dao.TaskDAO
 import com.aryan.data.dao.UserDAO
+import com.aryan.data.database.tables.authentication.Users
 import com.aryan.data.request.*
 import com.aryan.data.response.SignInResponse
 import com.aryan.data.response.UserResponse
@@ -173,6 +174,61 @@ fun Route.deleteTask() {
                 }
             } else {
                 call.respond(HttpStatusCode.BadRequest, "Invalid task ID")
+            }
+        }
+    }
+}
+
+fun Route.getTaskById() {
+    authenticate {
+        get("/tasks/{id}") {
+            val taskId = call.parameters["id"]?.toIntOrNull()
+            if (taskId == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid task ID")
+                return@get
+            }
+            val task = TaskDAO.getTaskById(taskId)
+            if (task != null) {
+                call.respond(HttpStatusCode.OK, task)
+            } else {
+                call.respond(HttpStatusCode.NotFound, "Task not found")
+            }
+        }
+    }
+}
+
+fun Route.getUserDetail() {
+    authenticate {
+        get("/user") {
+            val principal = call.principal<JWTPrincipal>()
+            val userId = principal?.getClaim("userId", String::class)
+            if(userId != null) {
+                val response = UserDAO.getUserDetail(userId.toInt())
+                call.respond(response)
+            } else {
+                call.respond(HttpStatusCode.NotFound)
+            }
+        }
+    }
+}
+
+fun Route.editUser() {
+    authenticate {
+        post("user/edit") {
+            val principal = call.principal<JWTPrincipal>()
+            val userId = principal?.getClaim("userId", String::class)
+            val updateUserDetailRequest = call.receive<UpdateUserDetailRequest>()
+            val isUserDetailChanged = userId?.let { it1 ->
+                UserDAO.editUser(
+                    userId = it1.toInt(),
+                    request = updateUserDetailRequest
+                )
+            }
+            if(isUserDetailChanged == true){
+                call.respond(HttpStatusCode.OK,"User Detail Changed")
+            }
+            else {
+                call.respond(HttpStatusCode.Conflict,"User Detail Not Changed")
             }
         }
     }
