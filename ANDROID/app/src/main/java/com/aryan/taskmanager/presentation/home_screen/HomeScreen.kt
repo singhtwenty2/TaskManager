@@ -1,5 +1,6 @@
 package com.aryan.taskmanager.presentation.home_screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,11 +20,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.aryan.taskmanager.data.entity.TaskResponse
 import com.aryan.taskmanager.presentation.navigation.NavigationRoute
+import com.aryan.taskmanager.ui.theme.Green30
+import com.aryan.taskmanager.ui.theme.spotifyBG
+import com.aryan.taskmanager.ui.theme.whatsAppBG
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
@@ -43,7 +49,9 @@ fun HomeScreenComposable(
     }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(spotifyBG)
             .nestedScroll(scrollBehaviourState.nestedScrollConnection),
         floatingActionButton = {
             ExtendedFloatingActionButton(
@@ -63,8 +71,15 @@ fun HomeScreenComposable(
         topBar = {
             MediumTopAppBar(
                 title = {
-                    Text(text = "Your Tasks")
+                    Text(
+                        text = "Your Tasks",
+                        color = Green30,
+                        fontWeight = FontWeight.Bold
+                    )
                 },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = whatsAppBG
+                ),
                 navigationIcon = {
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(
@@ -98,7 +113,10 @@ fun HomeScreenComposable(
                 onRefresh = { viewModel.fetchTask() }, // Refresh action
                 state = refreshingState
             ) {
-                LazyColumn {
+                LazyColumn(
+                    modifier = Modifier
+                        .background(whatsAppBG)
+                ) {
                     items(tasks) { task ->
                         TaskItem(
                             task = task,
@@ -131,7 +149,8 @@ fun TaskItem(
             .clickable(onClick = onItemClick)
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .background(whatsAppBG)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -139,7 +158,10 @@ fun TaskItem(
             ) {
                 Text(
                     text = "Title: ${task.title}",
-                    Modifier.weight(1f)
+                    Modifier.weight(1f),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 25.sp,
+                    color = Green30
                 )
                 IconButton(onClick = {
                     onDeleteClick()
@@ -150,11 +172,18 @@ fun TaskItem(
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(20.dp))
             task.description?.let { description ->
-                Text(text = "Description: $description")
+                Text(
+                    text = "Description: $description",
+                    fontSize = 18.sp
+                )
+                Spacer(modifier = Modifier.height(16.dp))
             }
             Text(text = "Due Date: ${task.dueDate}")
+            Spacer(modifier = Modifier.height(16.dp))
             Text(text = "Priority: ${task.priority}")
+            Spacer(modifier = Modifier.height(16.dp))
             Text(text = "Is Done: ${task.isDone}")
         }
     }
