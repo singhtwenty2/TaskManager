@@ -7,7 +7,7 @@ This project is developed as a part of our DBMS subject. It aims to provide a co
 
 ## Tech Stack
 - **Backend**: [![Ktor](https://img.shields.io/badge/Backend-Ktor-blue)](https://ktor.io/)
-- **Database**: [![SQLite](https://img.shields.io/badge/Database-SQLite-orange)](https://www.sqlite.org/)
+- **Database**: [![MySQL](https://img.shields.io/badge/Database-MySQL-blue)](https://www.mysql.com/)
 - **Android App**: [![Kotlin](https://img.shields.io/badge/Android%20App-Kotlin-green)](https://kotlinlang.org/)
 - **Web Frontend**: [![HTML](https://img.shields.io/badge/Web%20Frontend-HTML-red)](https://developer.mozilla.org/en-US/docs/Web/HTML) [![CSS](https://img.shields.io/badge/Web%20Frontend-CSS-blue)](https://developer.mozilla.org/en-US/docs/Web/CSS) [![JS](https://img.shields.io/badge/Web%20Frontend-JS-yellow)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
