@@ -25,10 +25,7 @@ Our project focuses on building a simple yet efficient system for managing perso
 <img src="SCREENSHOTS/loginScreen.png" alt="Auth Screen" width="300">
 
 ### Home Screen
-<img src="SCREENSHOTS/tasksList.png" alt="Auth Screen" width="300">
-
-### SwipeRefresh Layout
-<img src="SCREENSHOTS/swipeRefreshLayout.png" alt="Auth Screen" width="300">
+<img src="SCREENSHOTS/homeUpdated.png" alt="Auth Screen" width="300">
 
 ### Create Task Screen
 <img src="SCREENSHOTS/task.png" alt="Auth Screen" width="300">
